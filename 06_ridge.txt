@@ -1,0 +1,80 @@
+/*
+Level: Icy Ridge
+*/
+
+var loadouts = import Custom/loadouts
+
+func equip_melee()
+  equipL sword *10 vigor
+  equipR shield compound
+
+func equip_dps()
+  equipL sword *10 vigor
+  equipR shield compound
+
+func equip_dashing()
+  equipL sword *10 vigor
+  equipR shield *10 dashing
+
+func equip_staff()
+  equip staff *10 fire
+
+func equip_ranged_healing()
+  equipL crossbow *10
+  equipR ouroboros
+  
+func equip_ranged_shield()
+  equipL crossbow *10
+  equipR shield compound
+
+func equip_armor_piercing()
+  equipL hammer *10
+  equipR shield compound
+
+var hrminir_encountered = false
+  
+?loc = icy_ridge
+  // Small enemies
+  ?foe = elemental | foe = ki
+    ?hp = maxhp | foe.distance <= 23
+      // Healed completely or enemy too close
+      equip_staff()
+    :
+      // Try to heal while attacking from afar
+      equip_ranged_healing()
+  :?foe = pillar | foe = ice_wall
+    ?foe.distance <= 5
+      equip blade
+      ?hrminir_encountered &
+      ^ item.GetCooldown("blade") <= 0
+        // Hit the wall and the boss
+        // behind it as well. Don't use `R`
+        // before the boss to avoid waiting
+        // for the cooldown.
+        activate R
+    :
+      equip_dashing()
+
+  // Hrímnir
+  :?foe = boss
+    hrminir_encountered = true
+    ?foe.debuffs.count >= 9
+      activate cinderwisp
+    ?foe.distance <= 2
+      ?foe.armor > 0
+        equip_armor_piercing()
+      :
+        equip_dps()
+    :?foe.distance <= 5
+      // The shovel has an attack range of 1
+      // so it forces the player to move very
+      // very close. So close that it can avoid
+      // the attacks (snowballs)
+      equip shovel
+    :?foe.distance > 5
+      equip_dashing()
+  
+  ?hp < 10
+    activate potion
+
+  loadouts.healwalk()

@@ -1,0 +1,21 @@
+/*
+Level: Haunted Halls
+*/
+
+var loadouts = import Custom/loadouts
+
+func equip_melee()
+  equipL sword *10 ice
+  equipR shield *10 compound
+
+func equip_staff()
+  equip staff *10 vigor
+
+?loc = undead_crypt_boss | loc = undead_crypt
+  // Small enemies and boss: same strategy
+  // just keep on using the vigor staff
+  // and heal while walking between enemies
+  equip_staff()
+  ?hp < 10
+    activate potion
+  loadouts.healwalk()

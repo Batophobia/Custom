@@ -1,0 +1,34 @@
+/*
+Level: Caves of Fear
+*/
+
+var loadouts = import Custom/loadouts
+
+func equip_melee()
+  equipL sword ice
+  equipR shield compound
+
+func equip_dashing()
+  equipL sword ice
+  equipR shield dashing
+
+func equip_staff()
+  equip crossbow aether
+
+?loc = caves
+  ?foe ! boss  // Small enemies
+    ?foe.distance < 10
+      equip_melee()
+    :?foe.distance <= 23
+      equip_staff()
+    :
+      loadouts.healwalk()
+  :?foe = boss  // Bolesh, the cunning
+    ?foe.distance > 10
+      equip_dashing()
+    :
+      equip_melee()
+  :?hp < 10
+    activate potion
+  :
+    loadouts.healwalk()

@@ -1,0 +1,47 @@
+/*
+Level: All
+*/
+
+?summon.count < 1
+^ & (item.GetCooldown("fire_talisman")<=0
+^ | item.GetCooldown("fire_talisman")>=131)
+  equipR fire talisman
+  activate R
+
+?summon.GetId() = cinderwisp
+^ & summon.GetVar("ignition",0) >= 9
+  activate cinderwisp
+
+var prevItemL = ""
+var prevItemR = ""
+var revertItems = 0
+
+?item.GetCooldown("blade") <= 0
+^ & foe.count > 2 & foe.distance <= 20
+  ?revertItems < 1
+    prevItemL = item.left.id
+    prevItemR = item.right.id
+  revertItems = 1
+  equip blade
+  activate R
+
+:?item.GetCooldown("mask") <= 0
+^ & foe.count > 0 & foe.distance <= 20
+//^ & foe.debuffs.count >= 1
+  ?revertItems < 1
+    prevItemR = item.right.id
+  revertItems = 1
+  equipR mask
+  activate R
+
+:?revertItems > 0
+  revertItems = 0
+  ?prevItemL ! ""
+    equipL @prevItemL@
+  ?prevItemR ! ""
+    equipR @prevItemR@
+  prevItemL=""
+  prevItemR=""
+
+?hp < 10
+    activate potion

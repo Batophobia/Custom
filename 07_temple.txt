@@ -1,0 +1,16 @@
+/*
+Level: Temple
+*/
+
+var loadouts = import Custom/loadouts
+
+?loc = temple
+  equip wand *10 ice
+  equip sword *10 ice
+  ?hp <= 10
+    activate potion
+
+?loc = nagaraja
+  equip blade
+  ?hp <= 10 | debuffs.count >= 8
+    activate potion

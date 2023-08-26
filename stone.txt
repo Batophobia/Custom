@@ -1,0 +1,10 @@
+import fishing
+import Custom/00_plateau
+import Custom/01_canyon
+import Custom/02_caves
+import Custom/03_forest
+import Custom/04_halls
+import Custom/05_mines
+import Custom/06_ridge
+import Custom/07_temple
+import Custom/99_allMaps
