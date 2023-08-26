@@ -16,6 +16,11 @@ func equip_staff()
   equip crossbow aether
 
 ?loc = caves
+  ?loc.begin
+  ^ & item.potion ! cleansing
+    // Cleansing potions for spider poison
+    brew wood + tar
+  
   ?foe ! boss  // Small enemies
     ?foe.distance < 10
       equip_melee()
@@ -30,5 +35,10 @@ func equip_staff()
       equip_melee()
   :?hp < 10
     activate potion
+  :?item.potion = cleansing
+  ^ & debuffs.count > 6
+    activate potion
   :
     loadouts.healwalk()
+
+>`5,6,DEBUFF:@debuffs.string@

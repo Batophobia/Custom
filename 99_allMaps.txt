@@ -3,10 +3,9 @@ Level: All
 */
 
 ?summon.count < 1
-^ & (item.GetCooldown("fire_talisman")<=0
-^ | item.GetCooldown("fire_talisman")>=131)
   equipR fire talisman
-  activate R
+  ?time > 1
+    activate R
 
 ?summon.GetId() = cinderwisp
 ^ & summon.GetVar("ignition",0) >= 9
