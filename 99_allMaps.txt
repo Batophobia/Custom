@@ -8,7 +8,7 @@ Level: All
     activate R
 
 ?summon.GetId() = cinderwisp
-^ & summon.GetVar("ignition",0) >= 9
+^ & summon.GetVar("ignition",0) >= 8
   activate cinderwisp
 
 var prevItemL = ""
